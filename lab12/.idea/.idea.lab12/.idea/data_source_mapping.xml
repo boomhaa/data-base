@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="DataSourcePerFileMappings">
-    <file url="file://$PROJECT_DIR$/.idea/.idea.lab12/.idea/queries/Query_1.sql" value="52ae6598-f394-4aa7-a325-a7a5ddc3cd77" />
-    <file url="file://$PROJECT_DIR$/.idea/.idea.lab12/.idea/queries/lab12_select.sql" value="52ae6598-f394-4aa7-a325-a7a5ddc3cd77" />
-    <file url="file://$PROJECT_DIR$/ConnectedLayer.cs" value="52ae6598-f394-4aa7-a325-a7a5ddc3cd77" />
-    <file url="file://$PROJECT_DIR$/DisconnectedLayer.cs" value="52ae6598-f394-4aa7-a325-a7a5ddc3cd77" />
-  </component>
-</project>
