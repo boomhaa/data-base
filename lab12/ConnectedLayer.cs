@@ -90,13 +90,12 @@ public static class ConnectedLayer
 
             Console.WriteLine("-- Data from table Player --");
             Console.WriteLine(
-                $"{"PlayerID",-10}{"NickName",-15}{"FirstName",-15}{"MiddleName",-15}{"LastName",-15}{"BirthDate",-15}{"Country",-15}{"Rating",-10}");
+                $"{"NickName",-15}{"FirstName",-15}{"MiddleName",-15}{"LastName",-15}{"BirthDate",-15}{"Country",-15}{"Rating",-10}");
             Console.WriteLine(new string('-', 100));
 
             while (reader.Read())
             {
                 Console.WriteLine(
-                    $"{reader["PlayerID"],-10}" +
                     $"{reader["NickName"],-15}" +
                     $"{reader["FirstName"],-15}" +
                     $"{reader["MiddleName"],-15}" +

@@ -15,7 +15,7 @@ public static class DisconnectedLayer
         {
             Load(connectionString);
 
-            var tempRow = AddPlayerToDataSet(
+            var tempRow1 = AddPlayerToDataSet(
                 nickName: "trinity",
                 firstName: "Trinity",
                 middleName: "",
@@ -23,20 +23,28 @@ public static class DisconnectedLayer
                 birthDate: new DateTime(1991, 2, 2),
                 country: "USA",
                 rating: 2400);
+            
+            var tempRow2 = AddPlayerToDataSet(
+                nickName: "trinity1",
+                firstName: "Trinity1",
+                middleName: "",
+                lastName: "Unknown1",
+                birthDate: new DateTime(1992, 2, 2),
+                country: "USA1",
+                rating: 2600);
 
             PrintDataSet();
 
-            tempRow["Rating"] = 2450;
+            tempRow1["Rating"] = 2450;
+
+            PrintDataSet();
+            
+            Console.WriteLine($"[Disconnected] After SaveChanges PlayerID={tempRow1["PlayerID"]}");
+
+            tempRow2.Delete();
 
             SaveChanges();
-
-            Console.WriteLine($"[Disconnected] After SaveChanges PlayerID={tempRow["PlayerID"]}");
-
-            tempRow.Delete();
-
-            SaveChanges();
-
-            Reload(connectionString);
+            
             PrintDataSet();
         }
         catch (Exception e)
@@ -74,28 +82,6 @@ public static class DisconnectedLayer
             idCol.AutoIncrementStep = -1;
 
             Console.WriteLine("[Disconnected] DataSet loaded.");
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-        }
-    }
-
-    private static void Reload(string connectionString)
-    {
-        try
-        {
-            if (_playerTable == null || _adapter == null)
-            {
-                Load(connectionString);
-                return;
-            }
-
-            _playerTable.Clear();
-            _adapter.SelectCommand!.Connection = new SqlConnection(connectionString);
-            _adapter.Fill(_playerTable);
-
-            Console.WriteLine("[Disconnected] DataSet reloaded.");
         }
         catch (Exception e)
         {
@@ -196,12 +182,13 @@ public static class DisconnectedLayer
         var cmd = new SqlCommand(
             """
             INSERT INTO Player (NickName, FirstName, MiddleName, LastName, BirthDate, Country, Rating)
-            OUTPUT INSERTED.PlayerID
             VALUES (@NickName, @FirstName, @MiddleName, @LastName, @BirthDate, @Country, @Rating);
+
+            SET @PlayerID = CAST(SCOPE_IDENTITY() AS int);
             """,
             connection);
-
-        cmd.UpdatedRowSource = UpdateRowSource.FirstReturnedRecord;
+        
+        cmd.UpdatedRowSource = UpdateRowSource.OutputParameters;
 
         cmd.Parameters.Add("@NickName", SqlDbType.NVarChar, 50, "NickName");
         cmd.Parameters.Add("@FirstName", SqlDbType.NVarChar, 50, "FirstName");
@@ -210,6 +197,9 @@ public static class DisconnectedLayer
         cmd.Parameters.Add("@BirthDate", SqlDbType.Date, 0, "BirthDate");
         cmd.Parameters.Add("@Country", SqlDbType.NVarChar, 50, "Country");
         cmd.Parameters.Add("@Rating", SqlDbType.Int, 0, "Rating");
+        
+        var id = cmd.Parameters.Add("@PlayerID", SqlDbType.Int, 0, "PlayerID");
+        id.Direction = ParameterDirection.Output;
 
         return cmd;
     }

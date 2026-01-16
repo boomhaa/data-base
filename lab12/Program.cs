@@ -11,7 +11,7 @@ public class Program
             var connectionString =
                 ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
-            Console.WriteLine("-- Demo started --");
+            Console.WriteLine("-- Benchmark started --");
 
             Console.WriteLine("\n== Connected layer ==");
             ConnectedLayer.Benchmark(connectionString);
@@ -19,7 +19,7 @@ public class Program
             Console.WriteLine("\n== Disconnected layer ==");
             DisconnectedLayer.Benchmark(connectionString);
 
-            Console.WriteLine("\n-- Demo finished --");
+            Console.WriteLine("\n-- Benchmark finished --");
         }
         catch (Exception e)
         {
